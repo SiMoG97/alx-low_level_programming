@@ -6,6 +6,8 @@
  */
 int main(void)
 {
-	fprintf(stderr, "and that piece of art is useful\" - Dora Korpar, 2015-10-19\n");
+	char str[80] = "and that piece of art is useful\" - Dora Korpar, 2015-10-19";
+
+	fprintf(stderr, "%s\n",  str);
 	return (1);
 }
