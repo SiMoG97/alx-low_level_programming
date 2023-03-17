@@ -18,8 +18,17 @@ int main(void)
 		{
 			for (k = i; k < 10; k++)
 			{
-				for (l = j + 1; l < 10; l++)
+				for (l = j; l < 10; l++)
 				{
+					if (is_first_iteration == true && l == 0)
+					{
+						continue;
+					}
+
+					if (j != 0 && l == j)
+					{
+						continue;
+					}
 					if (is_first_iteration == false)
 					{
 						putchar(',');
