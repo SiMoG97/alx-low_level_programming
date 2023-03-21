@@ -1,5 +1,5 @@
 /**
- * _islower - Entry point
+ * _isalpha - This function checks if the provided character is an alphabet
  * @c: character to check
  * Return: either 0 or 1 (Success)
  */
