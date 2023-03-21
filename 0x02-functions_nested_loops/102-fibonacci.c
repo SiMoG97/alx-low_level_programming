@@ -7,7 +7,8 @@
 
 int main(void)
 {
-	long int numToPrint,  prevNum, currNum, i;
+	int i;
+	long int numToPrint,  prevNum, currNum;
 
 	prevNum = 0;
 	numToPrint = 1;
@@ -18,9 +19,16 @@ int main(void)
 		numToPrint = prevNum + currNum;
 		prevNum = currNum;
 
-		printf("%ld, ", numToPrint);
+		if (i == 49)
+		{
+
+			printf("%ld\n", numToPrint);
+		}
+		else
+		{
+			printf("%ld, ", numToPrint);
+		}
 	}
-	putchar('\n');
 	return (0);
 }
 
