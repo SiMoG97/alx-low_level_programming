@@ -25,7 +25,10 @@ void times_table(void)
 
 			if (l_num == 0)
 			{
-				_putchar(' ');
+				if (nbr2 != 0)
+				{
+					_putchar(' ');
+				}
 			}
 			else
 			{
