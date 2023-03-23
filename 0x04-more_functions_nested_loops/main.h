@@ -5,6 +5,8 @@ int _isupper(int c);
 
 void print_number(int n);
 
+void print_numbers(void);
+
 void print_triangle(int size);
 
 void print_square(int size);
