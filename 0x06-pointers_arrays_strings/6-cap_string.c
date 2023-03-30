@@ -7,19 +7,16 @@
 char *cap_string(char *str)
 {
 	int i, j, sepLen;
-	char sep[13] = {' ', '\n', ',', ';', '.', '!', '"', '?', '(', ')'};
+	char sep[] = {'\t', '\n', 59, 46, 33, 34, 40, 41, '{', '}', 32, 44, 63};
 
-	sep[10] = '\t';
-	sep[11] = '}';
-	sep[12] = '{';
 	sepLen = sizeof(sep) / sizeof(sep[0]);
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		for (j = 0; j < sepLen; j++)
 		{
-			if (str[i] == sep[j] && str[i + 1] >= 'a' && str[i + 1] <= 'z')
+			if ((i == 0 || str[i - 1] == sep[j]) && str[i] >= 'a' && str[i] <= 'z')
 			{
-				str[i + 1] -= 32;
+				str[i] -= 32;
 				break;
 			}
 		}
