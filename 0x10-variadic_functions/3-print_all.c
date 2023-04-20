@@ -11,7 +11,7 @@
 void print_all(const char * const format, ...)
 {
 	va_list args;
-	unsigned int n = strlen(format), i = 0;
+	unsigned int i = 0;
 	char *separator = "", *string;
 
 	if (!format)
@@ -25,13 +25,13 @@ void print_all(const char * const format, ...)
 		switch (format[i])
 		{
 			case 'c':
-				printf("%c%s", separator, va_arg(args, int));
+				printf("%s%c", separator, va_arg(args, int));
 				break;
 			case 'i':
-				printf("%d%s", separator, va_arg(args, int));
+				printf("%s%d", separator, va_arg(args, int));
 				break;
 			case 'f':
-				printf("%f%s", separator, va_arg(args, double));
+				printf("%s%f", separator, va_arg(args, double));
 				break;
 			case 's':
 				string = va_arg(args, char *);
