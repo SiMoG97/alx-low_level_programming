@@ -12,39 +12,37 @@ void print_all(const char * const format, ...)
 {
 	va_list args;
 	unsigned int n = strlen(format), i = 0;
-	char *separator = ", ";
+	char *separator = "", *string;
 
 	if (!format)
+	{
+		printf("\n");
 		return;
-
+	}
 	va_start(args, format);
-
 	while (format[i] != '\0')
 	{
-		if ((i == n - 1) && (n > 0))
-			separator = "";
-
 		switch (format[i])
 		{
 			case 'c':
-				printf("%c%s", va_arg(args, int), separator);
+				printf("%c%s", separator, va_arg(args, int));
 				break;
-
 			case 'i':
-				printf("%d%s", va_arg(args, int), separator);
+				printf("%d%s", separator, va_arg(args, int));
 				break;
-
 			case 'f':
-				printf("%f%s", va_arg(args, double), separator);
+				printf("%f%s", separator, va_arg(args, double));
 				break;
-
 			case 's':
-				printf("%s%s", va_arg(args, char *), separator);
+				string = va_arg(args, char *);
+				if (!string)
+					string = "(nil)";
+				printf("%s%s", separator, string);
 				break;
-
 			default:
 				break;
 		}
+		separator = ", ";
 		i++;
 	}
 	printf("\n");
