@@ -40,7 +40,8 @@ void print_all(const char * const format, ...)
 				printf("%s%s", separator, string);
 				break;
 			default:
-				break;
+				i++;
+				continue;
 		}
 		separator = ", ";
 		i++;
