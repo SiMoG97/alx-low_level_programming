@@ -1,27 +1,35 @@
 #include "main.h"
+
+#define BUFFER_SIZE 1024
+
+void print_error(char *message, char *filename, int exit_code);
+void close_file(int fd, char *filename);
+
 /**
- * print_err - Prints an error message and exits the program
- * @msg: The error message to print
- * @fname: The filename associated with the error
+ * print_error - Prints an error message and exits the program
+ * @message: The error message to print
+ * @filename: The filename associated with the error
  * @exit_code: The exit code to use when exiting the program
  */
 
-void print_err(char *msg, char *fname, int exit_code)
+void print_error(char *message, char *filename, int exit_code)
 {
-	dprintf(STDERR_FILENO, msg, fname);
+	dprintf(STDERR_FILENO, message, filename);
 	exit(exit_code);
 }
 
 /**
  * close_file - Closes a file descriptor
  * @fd: The file descriptor to close
- * @fname: The name of the file associated with the file descriptor
+ * @filename: The name of the file associated with the file descriptor
  */
 
-void close_file(int fd, char *fname)
+void close_file(int fd, char *filename)
 {
 	if (close(fd) == -1)
-		print_err("Error: Can't close file %s: %s\n", fname, 100);
+	{
+		print_error("Error: Can't close file %s: %s\n", filename, 100);
+	}
 }
 
 /**
@@ -34,38 +42,53 @@ void close_file(int fd, char *fname)
 
 int main(int argc, char *argv[])
 {
-	ssize_t num_r;
+	int file_from, file_to;
 	struct stat stat_buf;
-	int f_from, f_to;
-	char buffer[1024];
+	char buffer[BUFFER_SIZE];
+	ssize_t num_read;
 
 	if (argc != 3)
-		print_err("Usage: cp file_from file_to\n", "", 97);
-
-	f_from = open(argv[1], O_RDONLY);
-
-	if (f_from == -1)
-		print_err("Error: Can't read from file %s: %s\n", argv[1], 98);
-
-	if (stat(argv[2], &stat_buf) != -1 && truncate(argv[2], 0) == -1)
-		print_err("Error: Can't truncate file %s: %s\n", argv[2], 99);
-
-	f_to = open(argv[2], O_WRONLY | O_CREAT, 0664);
-
-	if (f_to == -1)
-		print_err("Error: Can't write to file %s: %s\n", argv[2], 99);
-
-	while ((num_r = read(f_from, buffer, 1024)) > 0)
 	{
-		if (write(f_to, buffer, num_r) == -1)
-			print_err("Error: Can't write to file %s: %s\n", argv[2], 99);
+		print_error("Usage: cp file_from file_to\n", "", 97);
 	}
 
-	if (num_r == -1)
-		print_err("Error: Can't read from file %s: %s\n", argv[1], 98);
+	file_from = open(argv[1], O_RDONLY);
 
-	close_file(f_from, argv[1]);
-	close_file(f_to, argv[2]);
+	if (file_from == -1)
+	{
+		print_error("Error: Can't read from file %s: %s\n", argv[1], 98);
+	}
+
+	if (stat(argv[2], &stat_buf) != -1)
+	{
+		if (truncate(argv[2], 0) == -1)
+		{
+			print_error("Error: Can't truncate file %s: %s\n", argv[2], 99);
+		}
+	}
+
+	file_to = open(argv[2], O_WRONLY | O_CREAT, 0664);
+
+	if (file_to == -1)
+	{
+		print_error("Error: Can't write to file %s: %s\n", argv[2], 99);
+	}
+
+	while ((num_read = read(file_from, buffer, BUFFER_SIZE)) > 0)
+	{
+		if (write(file_to, buffer, num_read) == -1)
+		{
+			print_error("Error: Can't write to file %s: %s\n", argv[2], 99);
+		}
+	}
+
+	if (num_read == -1)
+	{
+		print_error("Error: Can't read from file %s: %s\n", argv[1], 98);
+	}
+
+	close_file(file_from, argv[1]);
+	close_file(file_to, argv[2]);
 
 	return (0);
 }
