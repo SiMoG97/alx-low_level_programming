@@ -1,9 +1,9 @@
 #include "lists.h"
 
 /**
- * main - Entry point
- *
- * Return: Always 0 (Success)
+ * free_dlistint - frees a dlistint_t list
+ * @head: the head of the dlistint_t
+ * Return: Nothing
  */
 
 void free_dlistint(dlistint_t *head)
