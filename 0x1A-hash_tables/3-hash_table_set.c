@@ -49,7 +49,7 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 	hash_node_t *curr, *newNode;
 	char *newValue;
 
-	if (!key || !value || !ht || !(ht->array) || !ht->size || strlen(key) == 0)
+	if (!key || !(*key)|| !value || !ht || strlen(key) == 0)
 		return (0);
 
 	curr = ht->array[index];
