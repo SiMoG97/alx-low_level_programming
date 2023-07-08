@@ -52,27 +52,24 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 	if (!key || !value || !ht || !(ht->array) || !ht->size || strlen(key) == 0)
 		return (0);
 
+	curr = ht->array[index];
+	while (curr)
+	{
+		if (strcmp(curr->key, key) == 0)
+		{
+			free(curr->value);
+			newValue = strdup(value);
+			if (!newValue)
+				return (0);
+			curr->value = newValue;
+			return (1);
+		}
+		curr = curr->next;
+	}
+
 	newNode = create_node(key, value);
 	if (newNode == NULL)
 		return (0);
-
-	if (ht->array[index])
-	{
-		curr = ht->array[index];
-		while (curr)
-		{
-			if (strcmp(curr->key, key) == 0)
-			{
-				free(curr->value);
-				newValue = strdup(value);
-				if (!newValue)
-					return (0);
-				curr->value = newValue;
-				return (1);
-			}
-			curr = curr->next;
-		}
-	}
 
 	newNode->next = ht->array[index];
 	ht->array[index] = newNode;
